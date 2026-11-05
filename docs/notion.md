@@ -13,7 +13,6 @@ with direct OAuth and supports Notion Free.
    ```dotenv
    DATABASE_URL=postgresql://<user>:<password>@<host>/<database>
    BELL_PUBLIC_URL=https://<bell-host>
-   NOTION_ENABLED=true
    NOTION_TOKEN_ENCRYPTION_KEY=<base64 encryption key>
    ```
 
@@ -41,8 +40,7 @@ with direct OAuth and supports Notion Free.
    Bell registers the OAuth client automatically; no manually created Notion API token or
    client credentials are required.
 
-Configuration and database connections load only when Notion is used. Keep
-`NOTION_ENABLED=false` to leave the integration disabled.
+Notion is always enabled. Configuration and database connections load only when Notion is used.
 
 ## Use personal memory
 
@@ -62,8 +60,7 @@ reorganizing content, sharing information, or scheduling work requires approval.
 
 Detailed notes and activity records use the chosen Notion locations, with concise references
 in memory when useful. Plans, attempted actions, and confirmed outcomes stay distinct.
-Purchase records may include products, merchant, actual amount/currency, dates and status;
-[Link's purchase guide](link.md#personal-purchase-history) covers that workflow.
+Purchase records may include products, merchant, actual amount/currency, dates and status.
 
 The current request, corrections, exclusions, and forget requests take priority over old
 notes. Credentials, payment tokens, private checkout fields, and raw transcripts are not
@@ -73,7 +70,7 @@ Free-plan restrictions are reported rather than interpreted as empty results.
 ## Persistence and recovery
 
 Bell is for one person. Limit the Linq sender allowlist to the operator's own phone numbers.
-The web operator and each verified Linq identity authorize separately, as with Link. Choose
+The web operator and each verified Linq identity authorize separately. Choose
 the same Notion account and destination to share personal memory across those conversations.
 A grant cannot be selected through a model-supplied identity.
 
@@ -88,8 +85,7 @@ access or a saved memory. Use `notion_disconnect` to block access and revoke the
 If revocation fails, encrypted tokens remain for retry and access stays blocked. Retry
 disconnect to finish. Notion content is unaffected.
 
-Disabling the integration does not revoke or erase a stored grant. Disconnect before
-disabling to revoke access too. If the encryption key is lost, revoke Bell in Notion and
+If the encryption key is lost, revoke Bell in Notion and
 remove the unreadable connection row before reconnecting.
 
 Bell checks the stored grant before each remote tool call, including when Eve caches a
@@ -105,7 +101,7 @@ logging after a process crash, and a saved deadline is not a scheduled reminder.
 
 `pnpm check` runs tests, TypeScript, lint, and the production build. Set
 `TEST_NOTION_DATABASE_URL` to a disposable PostgreSQL database to include storage tests.
-CI's `TEST_LINK_DATABASE_URL` is also supported. The suite creates and drops a unique
+The suite creates and drops a unique
 schema and never calls Notion or uses application credentials.
 
 For a live check, connect Notion, save a test preference, and open its returned Notion link

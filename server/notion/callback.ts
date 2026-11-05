@@ -1,10 +1,8 @@
-import { notionEnabled } from "./config";
 import { getNotionOAuth, type NotionOAuth } from "./oauth";
 
 const headers = { "cache-control": "no-store", "referrer-policy": "no-referrer" };
 
 export async function notionCallback(request: Request, service: () => NotionOAuth = getNotionOAuth): Promise<Response> {
-  if (!notionEnabled()) return new Response("Notion is disabled.", { status: 404, headers });
   try {
     const params = new URL(request.url).searchParams;
     for (const name of ["state", "code", "error", "iss"]) {

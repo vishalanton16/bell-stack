@@ -84,7 +84,7 @@ Update the same logical record when new information arrives. Different actions m
 an account or authorization reference, so do not merge them without checking what happened.
 Clearly label tests, failed attempts, and unresolved outcomes. A memory write failure must
 never cause the original action to be repeated. Follow the relevant action skill for its
-verification requirements; purchases use Bell's Link checkout skill.
+verification requirements.
 
 Ordinary purchase facts, such as the product, merchant, amount, currency, and verified
 outcome, may be remembered by default. Never save card numbers, CVCs, card expiry values,

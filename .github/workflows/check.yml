@@ -32,7 +32,7 @@ jobs:
           --health-retries 10
     env:
       TEST_MONITOR_DATABASE_URL: postgresql://bell_test:bell_test@127.0.0.1:5432/bell_test
-      TEST_LINK_DATABASE_URL: postgresql://bell_test:bell_test@127.0.0.1:5432/bell_test
+      TEST_NOTION_DATABASE_URL: postgresql://bell_test:bell_test@127.0.0.1:5432/bell_test
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:

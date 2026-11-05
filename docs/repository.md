@@ -31,13 +31,6 @@ lifecycle; channel callbacks also handle terminal-session cleanup. Restart Bell 
 | Eve by Vercel | [Agent](../agent/agent.ts), [channels](../agent/channels/), [hooks](../agent/hooks/) | [Eve in Bell](#eve-by-vercel) |
 | Notion | [MCP connection](../agent/connections/notion.ts), [OAuth](../server/notion/), [personal memory Skill](../agent/skills/notion-memory/SKILL.md) | [Memory setup](notion.md) |
 | Linq | [Channel and sender policy](../agent/channels/linq.ts) | [Messaging setup](linq.md) |
-| Link by Stripe | [Eve extension and tools](../agent/extensions/link/), [authorization](../agent/lib/link-auth.ts), [server implementation](../server/link/) | [Sandbox and wallet setup](link.md) |
-| 1Password | [Operator SDK/CLI access](../server/browser/vault/onepassword.ts), [personal authorization](../agent/lib/onepassword-auth.ts), [personal server implementation](../server/onepassword/) | [Operator credentials](browser-runtime.md#credentials-and-otp), [personal access status](onepassword.md) |
-| Baselayer | [Agent tool](../agent/tools/merchant_access.ts), [credential minting](../server/baselayer.ts), [merchant verification](../server/verified-merchant.ts) | [Merchant access](baselayer.md) |
-
-Personal 1Password Agentic Autofill is implemented but disabled by default pending hosted extension
-support and live verification. Keep `ONEPASSWORD_ENABLED=false` and the extension ID unset as
-described in its guide. Operator SDK/CLI access remains separate and is unavailable over Linq.
 
 ## Development
 

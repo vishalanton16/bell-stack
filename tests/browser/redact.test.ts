@@ -5,7 +5,7 @@ import { redactText, redactValue } from "../../server/browser/redact.js";
 describe("trace redaction", () => {
   it("removes Browserbase and model keys", () => {
     const text = redactText(
-      "BROWSERBASE_API_KEY=bb_live_abcdefghijkl OPENAI_API_KEY=sk-abcdefghijklmnop",
+      "BROWSERBASE_API_KEY=bb_live_abcdefghijkl AI_GATEWAY_API_KEY=sk-abcdefghijklmnop",
     );
     expect(text).not.toContain("bb_live_abcdefghijkl");
     expect(text).not.toContain("sk-abcdefghijklmnop");

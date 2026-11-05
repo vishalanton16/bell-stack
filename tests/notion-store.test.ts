@@ -7,7 +7,7 @@ import { notionOwner } from "../server/notion/config";
 import { NotionOAuth } from "../server/notion/oauth";
 import { NotionStore } from "../server/notion/store";
 
-const databaseUrl = process.env.TEST_NOTION_DATABASE_URL ?? process.env.TEST_LINK_DATABASE_URL;
+const databaseUrl = process.env.TEST_NOTION_DATABASE_URL;
 const principal = { type: "user" as const, issuer: "linq", id: "linq:operator" };
 const owner = notionOwner(principal);
 const callbackUrl = "https://bell.example/eve/v1/connections/notion/callback/attempt/capability";

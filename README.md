@@ -2,21 +2,18 @@
 
 <p align="center"> <img width="128" height="128" alt="BELL" src="https://github.com/user-attachments/assets/f4c9363d-2ab0-4205-a3c7-7d7ad61ec6c6"/></p>
 
-[BELL](https://www.browserbase.com/blog/bell-personal-assistant-stack) is a reference architecture and sample app for running your own personal assistant. It combines browser automation, messaging, personal memory, and payments.
+[BELL](https://www.browserbase.com/blog/bell-personal-assistant-stack) is a reference architecture and sample app for running your own personal assistant. It combines browser automation, messaging, and personal memory.
 
 - Browserbase: Browser + Stagehand
 - Eve by Vercel: Agent Framework
 - Parallel: Public Web Research
-- Link by Stripe: Payments
 - Linq: Messaging Infrastruture
-- 1Password: Authentication
-- Baselayer: Identity
 - Notion: Personal memory, notes, and activity history
 
 
 ## Run locally
 
-Requires Node.js 24, pnpm 10.33.4, and OpenAI and Browserbase API keys.
+Requires Node.js 24, pnpm 10.33.4, a Vercel AI Gateway key, and a Browserbase API key.
 
 ```sh
 git clone https://github.com/browserbase/bell-stack.git
@@ -25,7 +22,7 @@ pnpm install --frozen-lockfile
 cp .env.example .env
 ```
 
-Set `OPENAI_API_KEY` and `BROWSERBASE_API_KEY` in `.env`. For ordinary browsing, set `BELL_DEMO_URL` to your target website. 
+Set `AI_GATEWAY_API_KEY` and `BROWSERBASE_API_KEY` in `.env`. Eve routes the model through Vercel AI Gateway; on Vercel, project OIDC can replace the gateway key. For ordinary browsing, set `BELL_DEMO_URL` to your target website. 
 Set `PARALLEL_API_KEY` to enable public-web research. Keep research inputs public; use the browser for authenticated pages and actions.
 
 ```sh
@@ -42,9 +39,6 @@ pnpm dev
 | Notion | Personal context, notes, decisions, and activity history across conversations | [Memory setup](docs/notion.md) |
 | Parallel | Public-web research and persistent watches with configurable frequency | Set `PARALLEL_API_KEY` in `.env`; [watch setup](docs/monitors.md) |
 | Linq | iMessage and SMS through a signed webhook and sender allowlist | [Messaging setup](docs/linq.md) |
-| Link by Stripe | Wallet authorization, spend approval, and checkout through Linq | [Sandbox and wallet setup](docs/link.md) |
-| 1Password | Operator credentials and OTP; personal Agentic Autofill is disabled by default | [Operator access](docs/browser-runtime.md#credentials-and-otp) · [Personal access status](docs/onepassword.md) |
-| Baselayer | Verified access to approved merchants using short-lived credentials | [Merchant access](docs/baselayer.md) |
 
 
 See the [repository layout and implementation map](docs/repository.md) to extend Bell.

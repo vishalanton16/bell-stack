@@ -118,23 +118,23 @@ describe("Bell's signed Linq webhook", () => {
       state: { pendingAuthMessageIds: {} },
     };
     const authorization = {
-      displayName: "Link", url: "https://login.link.com/auth?state=opaque-state",
-      instructions: "Connect your wallet and return to this chat.",
+      displayName: "Notion", url: "https://mcp.notion.com/authorize?state=opaque-state",
+      instructions: "Connect your Notion workspace and return to this chat.",
     };
     const { adapter } = linq as unknown as { adapter: ChannelAdapter };
     const context = new ContextContainer();
     context.set(SessionKey, { sessionId: "original-eve-session" } as never);
     await contextStorage.run(context, async () => {
       await adapter["authorization.required"]!(
-        { name: "link", authorization } as never, channel as never,
+        { name: "notion", authorization } as never, channel as never,
       );
       expect(post).toHaveBeenCalledExactlyOnceWith({ markdown: expect.stringContaining(authorization.url) });
-      expect(channel.state.pendingAuthMessageIds).toEqual({ link: "oauth-message" });
+      expect(channel.state.pendingAuthMessageIds).toEqual({ notion: "oauth-message" });
       await adapter["authorization.completed"]!(
-        { name: "link", authorization, outcome: "authorized" } as never, channel as never,
+        { name: "notion", authorization, outcome: "authorized" } as never, channel as never,
       );
     });
-    expect(editMessage).toHaveBeenCalledWith("original-linq-chat", "oauth-message", { markdown: "Link connected." });
+    expect(editMessage).toHaveBeenCalledWith("original-linq-chat", "oauth-message", { markdown: "Notion connected." });
     expect(startTyping).toHaveBeenCalledWith("Connected. Resuming...");
     expect(channel.state.pendingAuthMessageIds).toEqual({});
   });

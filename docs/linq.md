@@ -1,8 +1,7 @@
 # Text Bell through Linq
 
 Configure Bell with a receiving phone number from your own Linq account.
-Linq carries iMessage and SMS. [Link by Stripe wallet OAuth and checkout](link.md) use this channel's
-verified sender identity and require separate configuration.
+Linq carries iMessage and SMS.
 
 ```text
 Your phone -> Linq -> Bell /eve/v1/linq -> Eve conversation
@@ -14,7 +13,7 @@ Your phone <- Linq <- Bell's reply in the original chat
 
 One Linq chat keeps one Eve conversation and browser across follow-up messages. It does not
 automatically join an existing web chat. Browser, vault, and handoff tools run in the same agent
-process. Baselayer credentials are not required for ordinary browsing.
+process.
 
 ## Configure the line
 
@@ -37,7 +36,7 @@ still need a reachable HTTPS application host. See
    BELL_LINQ_ALLOWED_SENDERS=<your personal phone number, starting with + and country code>
    ```
 
-   Keep the existing OpenAI and Browserbase settings. The receiving line and your personal
+   Keep the existing AI Gateway and Browserbase settings. The receiving line and your personal
    sending number are different settings. An empty or invalid sender list accepts nobody.
    For this single-operator demo, allow only the operator's numbers because saved vault and
    browser Context data are shared. Group chats and iMessage email handles are not supported
@@ -76,10 +75,7 @@ still need a reachable HTTPS application host. See
 
 5. Use persistent storage for Bell's Context metadata and any existing local vault file on a single-instance
    host, or configure durable shared storage before a multi-instance/serverless deployment.
-   Personal [1Password Agentic Autofill](onepassword.md) is disabled by default pending hosted
-   extension support and live verification. Its implementation uses per-sender OAuth and private
-   browsers without reusable Contexts. Operator service-account and desktop vaults are not
-   exposed to Linq senders. Keep provider credentials in the server secret store.
+   Operator vaults are not exposed to Linq senders. Keep provider credentials in the server secret store.
 
 ## Demo from your phone
 
@@ -93,10 +89,7 @@ Bell should visit the site in Browserbase and reply in the same Linq chat. Follo
 that chat's browser. Report what the browser actually sees; merchant pages can vary by region
 or present a challenge. This demo does not log in, add items to a cart, or purchase anything.
 
-Personal saved logins are unavailable while [1Password Agentic Autofill](onepassword.md) is disabled.
-Keep `ONEPASSWORD_ENABLED=false` and `BROWSERBASE_1PASSWORD_EXTENSION_ID` unset until the guide's
-hosted extension and live verification requirements are met. The staged personal flow supports
-single-step sign-in only; OTP and passkeys are not implemented. Do not send passwords or OTPs
+Shared operator vaults are not available over iMessage. Do not send passwords or OTPs
 as chat messages.
 
 ## Verification boundary
@@ -107,7 +100,4 @@ no model or browser. It covers valid direct messages, same-chat routing, missing
 signatures, wrong lines or senders, groups, bot echoes, outbound messages, and invalid settings.
 
 A live phone round trip also needs the actual Linq credentials, reachable webhook, allowed sender,
-and Browserbase/OpenAI credentials. Verified browser mode alone does not establish inbound delivery.
-For Baselayer-protected merchant access, follow [the separate sandbox flow](baselayer.md).
-It needs a compatible merchant and a current verified principal. For wallet access and checkout,
-follow [the Link guide](link.md).
+and Browserbase/AI Gateway credentials. Verified browser mode alone does not establish inbound delivery.

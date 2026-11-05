@@ -161,9 +161,8 @@ describe("Notion OAuth", () => {
   });
 });
 
-it("validates enabled configuration and refuses application or unrelated user identities", () => {
+it("validates configuration and refuses application or unrelated user identities", () => {
   expect(() => notionConfig()).toThrow();
-  vi.stubEnv("NOTION_ENABLED", "true");
   vi.stubEnv("BELL_PUBLIC_URL", config.origin);
   vi.stubEnv("DATABASE_URL", config.databaseUrl);
   vi.stubEnv("NOTION_TOKEN_ENCRYPTION_KEY", config.key.toString("base64"));
@@ -176,9 +175,6 @@ it("validates enabled configuration and refuses application or unrelated user id
 });
 
 it("keeps callback responses private and rejects duplicate parameters before accessing storage", async () => {
-  vi.stubEnv("NOTION_ENABLED", "false");
-  expect((await notionCallback(new Request("https://bell.example/api/notion/oauth/callback"))).status).toBe(404);
-  vi.stubEnv("NOTION_ENABLED", "true");
   const service = vi.fn(() => { throw new Error("Must not access storage"); });
   const response = await notionCallback(new Request("https://bell.example/api/notion/oauth/callback?state=a&state=b&code=c"), service);
   expect(response.status).toBe(400);
@@ -252,7 +248,6 @@ it("parks and resumes through Eve's actual authorization lifecycle without journ
 });
 
 it("omits unsupported callers and checks the stored grant before tools can reuse an Eve bearer", async () => {
-  vi.stubEnv("NOTION_ENABLED", "true");
   const definition = (await import("../agent/connections/notion")).default;
   const session = { id: "test", auth: { current: {
     principalType: "user" as const, principalId: "operator", issuer: "bell:operator", authenticator: "http-basic", attributes: {},
@@ -276,12 +271,9 @@ it("omits unsupported callers and checks the stored grant before tools can reuse
       .rejects.toMatchObject({ reason: "notion_request_failed" });
     status.mockRestore();
   } finally { service.mockRestore(); }
-  vi.stubEnv("NOTION_ENABLED", "false");
-  expect(await resolver({}, { session, channel: {} } as never)).toBeNull();
 });
 
-it("validates the personal Notion connection through Eve's runtime resolver", async () => {
-  vi.stubEnv("NOTION_ENABLED", "true");
+it("returns the MCP connection through Eve's runtime resolver without an enable flag", async () => {
   const definition = (await import("../agent/connections/notion")).default;
   const { resolveDynamicConnectionValue } = await import("../node_modules/eve/dist/src/runtime/resolve-connection.js");
   for (const current of [

@@ -1,12 +1,11 @@
 import { defineDynamic, defineMcpClientConnection } from "eve/connections";
 import { notionAuth } from "../lib/notion-auth";
-import { notionEnabled, notionEndpoint, notionOwner, safeNotion } from "../../server/notion/config";
+import { notionEndpoint, notionOwner, safeNotion } from "../../server/notion/config";
 import { getNotionOAuth } from "../../server/notion/oauth";
 
 export default defineDynamic({
   events: {
     "turn.started": (_event, ctx) => {
-      if (!notionEnabled()) return null;
       const auth = ctx.session.auth.current;
       if (auth?.principalType !== "user" || !["bell:operator", "linq"].includes(auth.issuer ?? "")) return null;
       const principal = { type: "user" as const, id: auth.principalId, issuer: auth.issuer };

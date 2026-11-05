@@ -19,7 +19,7 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/005_monitor_frequency.sql
 
 Existing installations must apply `005_monitor_frequency.sql` before running the new code. It preserves existing watches as daily and is safe to reapply. Stop old workers before deploying the new code so they cannot consume the new update jobs.
 
-Monitor tables are independent of Link OAuth and can use the same database. Use a session-pooled connection. The worker uses bounded connection pools; delivery holds a watch row lock through the bounded Linq request to serialize with stopping. Frequency updates also hold the row lock through the bounded provider request, so they serialize with stopping. Other transactions are short; this does not make the rest of Bell's Eve workflow storage durable or multi-instance safe.
+Monitor tables can share PostgreSQL with Notion. Use a session-pooled connection. The worker uses bounded connection pools; delivery holds a watch row lock through the bounded Linq request to serialize with stopping. Frequency updates also hold the row lock through the bounded provider request, so they serialize with stopping. Other transactions are short; this does not make the rest of Bell's Eve workflow storage durable or multi-instance safe.
 
 Configure a scheduler to call `/api/parallel/monitors/process` every minute. Both GET and POST require `Authorization: Bearer <CRON_SECRET>`. For Vercel, add this to your deployment's `vercel.json` and configure `CRON_SECRET` in the environment:
 

@@ -46,8 +46,7 @@ describe("operator authentication", () => {
 });
 
 
-it.each(["true", "false"])("keeps the operator identity stable with NOTION_ENABLED=%s", async enabled => {
-  vi.stubEnv("NOTION_ENABLED", enabled);
+it("keeps the operator identity stable across loopback and production", async () => {
   vi.stubEnv("EVE_DEV", "1");
   const identity = { principalType: "user", issuer: "bell:operator", principalId: "operator" };
   expect(operatorAuth(request("/"))).toMatchObject(identity);

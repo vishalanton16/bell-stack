@@ -7,14 +7,14 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 
 assert.equal(process.env.BELL_LIVE_PARALLEL, "1", "Set BELL_LIVE_PARALLEL=1 to run this live production-build test.");
-for (const name of ["OPENAI_API_KEY", "PARALLEL_API_KEY", "BROWSERBASE_API_KEY"]) assert.ok(process.env[name], `${name} is required`);
+for (const name of ["AI_GATEWAY_API_KEY", "PARALLEL_API_KEY", "BROWSERBASE_API_KEY"]) assert.ok(process.env[name], `${name} is required`);
 const directory = await mkdtemp(path.join(tmpdir(), "bell-production-test-"));
 const socket = createServer();
 await new Promise(resolve => socket.listen(0, "127.0.0.1", resolve));
 const port = socket.address().port;
 await new Promise(resolve => socket.close(resolve));
 const origin = `http://127.0.0.1:${port}`;
-const env = { ...process.env, NODE_ENV: "production", BELL_OPERATOR_USERNAME: "regression", BELL_OPERATOR_PASSWORD: randomBytes(32).toString("hex"), BELL_TEST_REQUIRE_AUTH: "1", BELL_TEST_ORIGIN: origin, BELL_CONTEXT_METADATA_PATH: path.join(directory, "contexts.json"), BROWSERBASE_CONTEXT_ID: "", ONEPASSWORD_ENABLED: "false", STAGEHAND_BROWSER: "browserbase" };
+const env = { ...process.env, NODE_ENV: "production", BELL_OPERATOR_USERNAME: "regression", BELL_OPERATOR_PASSWORD: randomBytes(32).toString("hex"), BELL_TEST_REQUIRE_AUTH: "1", BELL_TEST_ORIGIN: origin, BELL_CONTEXT_METADATA_PATH: path.join(directory, "contexts.json"), BROWSERBASE_CONTEXT_ID: "", STAGEHAND_BROWSER: "browserbase" };
 delete env.BELL_TEST_PROTECTION_BYPASS;
 const routes = JSON.parse(await readFile(".next/routes-manifest.json", "utf8"));
 const agentOrigin = new URL(routes.rewrites.beforeFiles.find(route => route.source === "/eve/v1/:path+").destination);

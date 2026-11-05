@@ -1,7 +1,6 @@
 import { ConnectionAuthorizationFailedError, type ConnectionPrincipal } from "eve/connections";
 
 export const notionEndpoint = "https://mcp.notion.com/mcp";
-export const notionEnabled = () => process.env.NOTION_ENABLED === "true";
 
 export function failed(reason: string): never {
   throw new ConnectionAuthorizationFailedError("notion", { reason, retryable: false });
@@ -17,7 +16,6 @@ export function notionOwner(principal: ConnectionPrincipal): string {
 }
 
 export function notionConfig() {
-  if (!notionEnabled()) return failed("notion_disabled");
   const origin = process.env.BELL_PUBLIC_URL?.trim() ?? "";
   let url: URL;
   try { url = new URL(origin); } catch { return failed("invalid_public_url"); }
